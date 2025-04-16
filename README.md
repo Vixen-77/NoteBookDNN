@@ -1,25 +1,33 @@
 # 🔬 Human Vital Signs Analysis with DNN (Deep Neural Network)
 
-Ce projet vise à analyser les signes vitaux humains pour prédire le **risque médical (faible ou élevé)** à l'aide d'un **réseau de neurones artificiel** entraîné sur un jeu de données biométriques.
+Ce projet vise à analyser les signes vitaux humains pour prédire le **risque médical (faible ou élevé)** à l'aide d'un **réseau de neurones artificiel** entraîné sur un jeu de données biométriques basé sur une classification bianire
 
 ## 📁 Contenu du projet
 
 Ce dépôt contient :
 - Le notebook Jupyter développé sous **Google Colab** puis migré dans **VS Code**
-- Les fichiers CSV pour l'entraînement, validation et test
-- Les versions normalisées des datasets
-- Un scaler sauvegardé (`.pkl`) pour réutilisation
+les fichier normaliser et dataset sont dans google drive
+
 
 ## 🧠 Objectif
 
-Créer un modèle de Deep Learning (DNN) pour prédire la variable `Risk_Category` (Low Risk ou High Risk) à partir de données biométriques telles que :
-- Gender
-- Heart rate
-- Respiratory rate
-- Temperature
-- Oxygen saturation
-- Blood pressure
-- etc.
+Créer un modèle de Deep Learning (DNN) pour prédire la variable `Risk_Category` (Low Risk ou High Risk) à partir de 14 données biométriques 
+Colonne | Description
+0. Heart_Rate | Fréquence cardiaque : nombre de battements de cœur par minute. Normal : entre 60 et 100 bpm chez l'adulte.
+1. Respiratory_Rate | Fréquence respiratoire : nombre de respirations par minute. Normal : 12–20 pour un adulte.
+2. Body Temperature | Température corporelle en °C. Normal : environ 36.5–37.5°C. Trop basse = hypothermie, trop haute = fièvre.
+3. Oxygen_Saturation | Saturation en oxygène du sang (SpO₂) en %. Normal > 95%. En dessous = possible problème respiratoire.
+4. Systolic_Blood_Pressure | Tension artérielle systolique (le chiffre du haut). Pression lorsque le cœur se contracte. Normal ~120 mmHg.
+5. Diastolic_Blood_Pressure | Tension diastolique (le chiffre du bas). Pression quand le cœur est au repos. Normal ~80 mmHg.
+6. Age | Âge de la personne. Peut influencer tous les autres paramètres (ex : un senior aura des risques différents).
+7. Gender | Sexe de la personne (Male, Female, etc.). Peut jouer sur certains indicateurs médicaux.
+8. Weight | Poids en kg. Important pour le calcul de l’IMC (Indice de Masse Corporelle).
+9. Height | Taille en mètres. Utilisée avec le poids pour calculer l’IMC.
+10. Derived_HRV | Variabilité de la fréquence cardiaque (HRV) : indicateur de stress, de fatigue ou de bon état de santé cardiovasculaire. Plus c’est élevé, mieux c’est (en général).
+11. Derived_Pulse_Pressure | Pression pulsée = Systolique - Diastolique. Un indicateur de rigidité artérielle ou de problème cardiaque potentiel.
+12. Derived_BMI | Indice de masse corporelle : poids / (taille²). Permet de savoir si la personne est en sous-poids, normal, en surpoids ou obèse.
+13. Derived_MAP | Pression artérielle moyenne (MAP) : reflète la perfusion sanguine des organes. Calcul : (2*diastolique + systolique) /3
+14. Risk_Category | Catégorie de risque : High ou Low. Étiquette finale pour la classification binaire (1 = High Risk, 0 = Low Risk).
 
 ## 🛠️ Étapes réalisées
 
@@ -66,3 +74,6 @@ Créer un modèle de Deep Learning (DNN) pour prédire la variable `Risk_Categor
 -taille de données de validation : 10%   --> les valeurs ici seront utilisé pour les test de API au moment du sign up on prend les valeur du poid , taille , age et gender dici (exactement 20002)
 
   ## EN somme : 160016 +20002 +20002 = 200020 
+
+  ## NOTE IMPORTANTE:
+  noublié pas d'activer le GPU sur google collab 
