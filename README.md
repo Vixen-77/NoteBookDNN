@@ -32,19 +32,37 @@ Créer un modèle de Deep Learning (DNN) pour prédire la variable `Risk_Categor
    - Enregistrement du scaler dans un fichier `.pkl`
    - Sauvegarde des fichiers normalisés : `train_normalized.csv`, `val_normalized.csv`, `test_normalized.csv`
 7. **Construction du modèle DNN** avec TensorFlow/Keras :
-   - Plusieurs couches Dense avec `ReLU`
+    **nombre de couche cachées** : 5
+    **nombre de noeurones par couche** :
+       entré : 14 paramètre normalisé 
+       couche1
+       couche2
+       couche3
+       couche4
+       couche5
+       couche 6 (sortie soit 0 soit 1)
+   - les couches 1-5 Dense avec `ReLU`
    - Couches `Dropout` pour éviter le surapprentissage
    - Dernière couche en `sigmoid` pour une sortie binaire
+
+     
+
 8. **Compilation** du modèle :
    - Optimiseur : Adam
    - Fonction de perte : Binary Crossentropy
    - Métrique : Accuracy
 
-## 🧪 Entraînement
-
+## 🧪 Entraînement et taille choisi
+  
 - Nombre d’épochs : `20`
 - Batch size : `32`
 - Données d'entraînement : `train_normalized.csv`
-- Validation : `val_normalized.csv`
+- taille de données d'entrainement : 80% ( exactement 160016 echontillons)
 
+- Données de Validation : `test_normalized.csv`
+-taille de données de test : 10% (exactement  20002)
 
+- Données de Validation : `val_normalized.csv`
+-taille de données de validation : 10%   --> les valeurs ici seront utilisé pour les test de API au moment du sign up on prend les valeur du poid , taille , age et gender dici (exactement 20002)
+
+  ## EN somme : 160016 +20002 +20002 = 200020 
