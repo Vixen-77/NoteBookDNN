@@ -59,7 +59,7 @@ Créer un modèle de Deep Learning (DNN) pour prédire la variable `Risk_Categor
 - Données d'entraînement : `train_normalized.csv`
 - taille de données d'entrainement : 80% ( exactement 160016 echontillons)
 
-- Données de Validation : `test_normalized.csv`
+- Données de test : `test_normalized.csv`
 -taille de données de test : 10% (exactement  20002)
 
 - Données de Validation : `val_normalized.csv`
