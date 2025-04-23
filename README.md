@@ -77,3 +77,41 @@ Colonne | Description
 
   ## NOTE IMPORTANTE:
   noublié pas d'activer le GPU sur google collab 
+
+
+  # RESULTAT: evalusation des performance dans les phase d'entrainement
+  **en entrainement**
+  **en test**
+
+# CODE TRES PRESIEUX
+
+import tensorflow as tf
+import tf2onnx
+from google.colab import drive
+
+# Monter Google Drive
+drive.mount('/content/drive')
+
+# Charger le modèle Keras Sequential
+seq_model = tf.keras.models.load_model('/content/drive/MyDrive/my_model.keras')
+
+# Créer un modèle fonctionnel pour éviter l'erreur .output_names
+inputs = tf.keras.Input(shape=(14,), name="input")  # adapte selon ton dataset
+outputs = seq_model(inputs)
+model = tf.keras.Model(inputs=inputs, outputs=outputs)
+
+# Conversion vers ONNX
+spec = (tf.TensorSpec([None, 14], tf.float32, name="input"),)
+
+onnx_model, _ = tf2onnx.convert.from_keras(
+    model,
+    input_signature=spec,
+    opset=13
+)
+
+# Sauvegarde
+with open("/content/drive/MyDrive/mon_model.onnx", "wb") as f:
+    f.write(onnx_model.SerializeToString())
+
+print("✅ Modèle converti avec succès en ONNX !")
+
