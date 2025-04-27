@@ -1,6 +1,6 @@
 # 🔬 Human Vital Signs Analysis with DNN (Deep Neural Network)
 
-Ce projet vise à analyser les signes vitaux humains pour prédire le **risque médical (faible ou élevé)** à l'aide d'un **réseau de neurones artificiel** entraîné sur un jeu de données biométriques basé sur une classification bianire
+Ce projet vise à analyser les signes vitaux humains pour prédire le **risque médical (faible ou élevé)** à l'aide de 3 Models **réseau de neurones artificiel** entraîné sur un jeu de données biométriques basé sur une classification bianire le Bute est de choisir le model avec les meilleures performances
 
 ## 📁 Contenu du projet
 
@@ -60,7 +60,7 @@ Colonne | Description
    - Fonction de perte : Binary Crossentropy
    - Métrique : Accuracy
 
-## 🧪 Entraînement et taille choisi
+## 🧪 Entraînement et Model choisi et taille choisi
   
 - Nombre d’épochs : `20`
 - Batch size : `32`
@@ -75,43 +75,29 @@ Colonne | Description
 
   ## EN somme : 160016 +20002 +20002 = 200020 
 
+# Architecture (vous pouver voir de maniere visuel l'architecture des 3 models)
+
+ **Architecture 1 : 14 - 32 - 16 - 8 - 8 - 4 - 1 (Dropout 0.3 sur les couches 32 et 16)**
+•	Forme : réseau profond avec décroissance progressive des dimensions, permettant une hiérarchie d’abstractions successives.
+•	Dropout : appliqué sur les couches 32 et 16 avec un taux de 0.3.
+•	Avantage : capacité d’apprentissage élevée tout en restant régularisé grâce au dropout.
+    Justification : La séquence de taille décroissante (32 → 4) favorise l’apprentissage de représentations de plus en plus compactes. Le taux de 0.3 permet de casser les coadaptations sans trop réduire la capacité du modèle.
+
+
+
+**Architecture 2 : 14 - 32 - 16 - 8 - 4 - 1 (Dropout 0.4 sur les couches 32 et 16 )**
+•	Forme : plus compacte que la première, sans redondance de couche 8.
+•	Dropout : 0.4 sur les couches 32 et 16, renforçant l’effet de régularisation.
+•	Avantage : structure plus légère avec une régularisation plus agressive.
+    Justification : Le taux plus élevé de dropout permet de compenser la perte de capacité causée par la suppression d’une couche, tout en maintenant la profondeur suffisante pour apprendre des patterns complexes.
+
+
+**Architecture 3 : 14 - 16 - 12  -8 - 4 - 1 (Dropout 0.29 sur les couches 16 et 12)**
+•	Forme : architecture simple, peu profonde, adaptée à des données peu bruitées ou moins complexes.
+•	Dropout : 0.19 appliqué sur les couches 16 et 12.
+•	Avantage : moins coûteuse en calcul, meilleure généralisation si les données sont peu redondantes.
+    Justification ::En réduisant la taille du réseau, on limite naturellement l’overfitting. Le dropout complète cette stratégie pour forcer le réseau à apprendre des représentations robustes.
+    
   ## NOTE IMPORTANTE:
   noublié pas d'activer le GPU sur google collab 
-
-
-  # RESULTAT: evalusation des performance dans les phase d'entrainement
-  **en entrainement**
-  **en test**
-
-# CODE TRES PRESIEUX
-
-import tensorflow as tf
-import tf2onnx
-from google.colab import drive
-
-# Monter Google Drive
-drive.mount('/content/drive')
-
-# Charger le modèle Keras Sequential
-seq_model = tf.keras.models.load_model('/content/drive/MyDrive/my_model.keras')
-
-# Créer un modèle fonctionnel pour éviter l'erreur .output_names
-inputs = tf.keras.Input(shape=(14,), name="input")  # adapte selon ton dataset
-outputs = seq_model(inputs)
-model = tf.keras.Model(inputs=inputs, outputs=outputs)
-
-# Conversion vers ONNX
-spec = (tf.TensorSpec([None, 14], tf.float32, name="input"),)
-
-onnx_model, _ = tf2onnx.convert.from_keras(
-    model,
-    input_signature=spec,
-    opset=13
-)
-
-# Sauvegarde
-with open("/content/drive/MyDrive/mon_model.onnx", "wb") as f:
-    f.write(onnx_model.SerializeToString())
-
-print("✅ Modèle converti avec succès en ONNX !")
 
